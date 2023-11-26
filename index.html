@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>時間割登録</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+</head>
+<body>
+  <form class="w-75 mx-auto">
+    <p class="mt-3">【金曜日の時間割登録】</p>
+    <p class="mt-3">1限</p>
+    <div>
+        <input class="form-control w-100 mt-1" name="itigen" placeholder="" required>
+    </div>
+    <p class="mt-3">2限</p>
+    <div>
+        <input class="form-control w-100 mt-1" name="nigen" required>
+    </div>
+    <p class="mt-3">3限</p>
+    <div>
+        <input class="form-control w-100 mt-1" name="sangen" required>
+    </div>
+    <p class="mt-3">4限</p>
+    <div>
+        <input class="form-control w-100 mt-1" name="yogen" required>
+    </div>
+    <p class="mt-3">5限</p>
+    <div>
+        <input class="form-control w-100 mt-1" name="gogen" required>
+    </div>
+  </form>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+  <script>
+    function foo() {
+       alert("入力完了");
+       return true;
+    }
+    liff.init({
+      liffId: '2001879093-noLzxbRJ'
+    }).catch((err) => {
+      console.log(err);
+    });
+    liff.ready.then(() => {
+      if (!liff.isLoggedIn()) {
+        liff.login();
+      }
+      const idToken = liff.getDecodedIDToken();
+      const userId = idToken.sub;
+      $('form').append(`<input type="hidden" name="userId" value="${userId}">`);
+      $('form').append(`<input type="submit" class="mt-4 btn btn-primary" value="送信" onclick="return foo();" >`);
+      $('form').append(`<input type="button" class="mt-4 btn btn-primary" onclick="window.close();" value="閉じる">`);
+    });
+    
+    $('form').submit(function( event ) {
+      event.preventDefault();
+  　　$.post( 'https://script.google.com/macros/s/AKfycbxijqi8Qk_wQUhwugh4AsM78XxSCMiw3qNG2aq-SSOVCqOitznKJnB_P6iCB8RBHVjMLw/exec', $('form').serialize() )
+    });
+  </script>
+</body>
+</html>
